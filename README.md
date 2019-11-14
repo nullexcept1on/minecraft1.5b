@@ -1,27 +1,36 @@
 # Minecraft mod creator pack 2.12 for Minecraft 1.5_01
 
+## Что изменено/добавлено
 
+* В папку jars/bin/natives добавлены .so файлы для запуска клиента под linux
+* В папке jars/bin заменены файлы jinput.jar, lwjgl_util.jar, lwjgl.jar на идентичные, по названию, из <a href="https://sourceforge.net/projects/java-game-lib/files/Official%20Releases/LWJGL%202.9.3/">lwjgl 2.9.3</a>
+* Добавлены папки: jars/resources, mods
+
+## Зависимости
+* wine (linux)
+* python (протестировано на 3 версии)
+* <a href="http://jdk.java.net/java-se-ri/8">Windows 7 i586 Java Development Kit (md5) 88 MB</a> (jdk.java.net/java-se-ri/8)
+* <a href="http://jdk.java.net/java-se-ri/8">Oracle Linux x64 Java Development Kit (md5) 164 MB</a> (jdk.java.net/java-se-ri/8)
+
+## Как проходит процесс:
+1) декомпиляция в sources (decompile)
+2) изменение исходников
+3) компиляция (recompile)
+4) тестирование (test_game, test_server)
+5) реобфускация в final_out
+6) добавление классов в minecraft.jar (не в папке jars/bin) и удаление папки META-INF в minecraft.jar
 
 ## Использование в среде Linux
-- The shell scripts in the scripts directory need to be moved into the root
-  directory of MCP before using them:
-  mv scripts/*.sh .
-- wine to run jad. We know, there are linux binaries of jad BUT those are
-  v1.5.8e, we need 1.5.8g
-- python to run some of the tools
-- patch to fix the decompiled sources
-- minecraft.jar, lwjgl jars, and the linux version of the natives, these can
-  be found in your home dir under ".minecraft/bin", the entire bin folder
-  itself should be copied into the jars folder
+```
+1) sudo chmod +x *.sh - Позволить запускать скрипты (выдача прав на исполнение)
+2) ./decompile.sh - Декомпиляция клиента(jars/bin/minecraft.jar) и сервера(jars/minecraft_server.jar) в папку sources
+3) ./recompile.sh - Компиляция из папки source
+4) ./test_game.sh и ./test_server.sh - тестирование клиента и сервера
+5) ./reobf.sh - Реобфускация в папку final_out
+```
 
-  After moving the scripts and confirming that wine and python are available run
-the following command in the MCP root directory:
-  bash ./cleanup.sh
-
-  On the first run this will confirm the correct permissions for all scripts,
-and check that all required directories are created.
-  After this has been done you can run any commands by using ./cleanup.sh
-./decompile.sh etc
+## Что делать сейчас не надо: (эти проблемы исправят)
+* удалять папку logs. Иначе не будет процесса декомпиляции
 
 Prerequisites:
 ==============
@@ -112,62 +121,82 @@ Searge
 * Creator of MCP
 * Fixes all compile errors in the decompiled sourcecode
 * Created the MCP Mod System and API
+
 ProfMobius
 * Creator of the renaming codes and re-obfuscation procedures
 * Helped to port scripts to Linux
 * Developer and maintainer of the MCP chan bot
 * Is now bald after working too much with java constant pool and re-obfuscation
+
 IngisKahn
-* Creator of the bytecode compare tool that helps us to update the name mappings quickly for new minecraft versions
+* Creator of the bytecode compare tool that helps us to update the name mappings 
+quickly for new minecraft versions
 * Contributed to the de-obfuscation spreadsheet
+
 Generic
 * Works on improving IngisKahn's bytecode compare tool
 * Added some important features to retroguard
+
 Fesh0r
 * php/sql code monkey
 * MCP 2.6/2.7 class mappings, patches, and general release work
 * Has Searge's approval to make official MCP releases ;)
+
 fotoply
 * Helped to improve the batch files
+
 Cadde
 * Community manager and Wiki manager
 * Works on the de-obfuscation spreadsheet
 * Mod support (making old mods work with MCP)
 * All round handyman
+
 Vaprtek
 * Works on the de-obfuscation spreadsheet
 * Knows how to make pet creepers
+
 gronk
 * Script support
+
 n00bish
 * Linux script maintenance
+
 Sage Pourpre
 * His thread in the forums inspired me (Searge) to create this toolpack in the first place
+
 Tei
 * Supported the MCP project since the first version was released
+
 spec10
 * The new linux scripts guy
+
 Head
 * Wiki contributor / Administrator
 * Explains classes and their members on the Wiki
+
 MissLil
 * Various scripting stuff
 * Lots of reverse engineering
 * OpenGL constants annoting
+
 ScottyDoesKnow
 * obfuscathonCharmer, the obfuscathon GUI
+
 Chase
 * MCP Launcher Work
 * External jar loading
 * Scrollable mod list.
+
 303
 * Wiki contributor
 * Tries to help out newbies in the IRC channels
 * Created some scripts for mod loader support
+
 ZeuX
 * Helps out in the IRC channels, constantly fails at solving modloader issues.
 * Named most new classes for MCP 2.9
 * Did server patches for the most recent versions - if you run into any (patch-related) problems, it's his fault
+
 Risugami
 * The guy who created the first mods I (Searge) ever used in Minecraft
 * The creator of modloader who gave us permission to include files from his system in MCP
@@ -175,36 +204,34 @@ Risugami
 and of course:
 - Everybody who contributed to the great google spreadsheet or who created some mods (I've got them all :).
 - NOTCH for creating a game that is just awesome, I hope he does not feel offended by our decompiling efforts.
-        Please, Notch, support our ambitions to mod your game. I know people who bought it just because of
-        some great mods.
 
-History:
+MCP log:
 ========
-2.12 - Updated to support Minecraft 1.5_01 and MinecraftServer 1.5_02
-2.11 - Updated to support Minecraft 1.4_01 and MinecraftServer 1.4_01
-2.10 - Updated to support Minecraft 1.4 and MinecraftServer 1.4
-2.9a - Added MCP Mod System for 1.3_01, added mod loader support, updated mappings
-2.9  - Updated to support Minecraft 1.3_01 and MinecraftServer 1.3
-2.8  - Added the MCP mod system SDK and support for OSX
-2.7  - Updated to support Minecraft 1.2_02 and MinecraftServer 1.2_01
-2.6  - Updated to support Minecraft 1.1_02 and MinecraftServer 1.1_02
-2.5  - Updated to support Minecraft 1.2.6 and MinecraftServer 0.2.8
-2.4  - Updated to support Minecraft 1.2.5 and MinecraftServer 0.2.7
-2.3  - Updated to support Minecraft 1.2.3_04 and MinecraftServer 0.2.5_02. Linux support beta.
-2.2a - Bugfix release to improve the re-obfuscation tools
-2.2  - The reobfuscation beta test release. Still for Minecraft 1.2.2
-2.1  - Updated to support Minecraft 1.2.2
-2.0a - Bugfix release
-2.0  - Major updates to MCP and support for post-Halloween versions of Minecraft
-1.6  - All classes have meaningful names now, the class name mappings and the field name mappings are applied
-1.5  - Extend the scripts to also support decompiling, recompiling and testing the minecraft_server.jar file
-1.4  - Using a deobfuscator to rename all fields and methods and jadretro to fix some decompile bugs
-1.3  - Added upgrade scripts to decompile and recompile Minecraft.class, MinecraftApplet.class and MinecraftServer.class
-1.2  - Redirect output of all tools to a logfile
-1.1  - Fixed TNT bug
+2.12 - Updated to support Minecraft 1.5_01 and MinecraftServer 1.5_02<br>
+2.11 - Updated to support Minecraft 1.4_01 and MinecraftServer 1.4_01<br>
+2.10 - Updated to support Minecraft 1.4 and MinecraftServer 1.4<br>
+2.9a - Added MCP Mod System for 1.3_01, added mod loader support, updated mappings<br>
+2.9  - Updated to support Minecraft 1.3_01 and MinecraftServer 1.3<br>
+2.8  - Added the MCP mod systemHistory SDK and support for OSX<br>
+2.7  - Updated to support Minecraft 1.2_02 and MinecraftServer 1.2_01<br>
+2.6  - Updated to support Minecraft 1.1_02 and MinecraftServer 1.1_02<br>
+2.5  - Updated to support Minecraft 1.2.6 and MinecraftServer 0.2.8<br>
+2.4  - Updated to support Minecraft 1.2.5 and MinecraftServer 0.2.7<br>
+2.3  - Updated to support Minecraft 1.2.3_04 and MinecraftServer 0.2.5_02. Linux support beta.<br>
+2.2a - Bugfix release to improve the re-obfuscation tools<br>
+2.2  - The reobfuscation beta test release. Still for Minecraft 1.2.2<br>
+2.1  - Updated to support Minecraft 1.2.2<br>
+2.0a - Bugfix release<br>
+2.0  - Major updates to MCP and support for post-Halloween versions of Minecraft<br>
+1.6  - All classes have meaningful names now, the class name mappings and the field name mappings are applied<br>
+1.5  - Extend the scripts to also support decompiling, recompiling and testing the minecraft_server.jar file<br>
+1.4  - Using a deobfuscator to rename all fields and methods and jadretro to fix some decompile bugs<br>
+1.3  - Added upgrade scripts to decompile and recompile Minecraft.class, MinecraftApplet.class and MinecraftServer.class<br>
+1.2  - Redirect output of all tools to a logfile<br>
+1.1  - Fixed TNT bug<br>
 1.0  - First release
 
 Roadmap:
 ========
-3.0  - An improved set of tools and an updated version of the MCP Mod System
+3.0  - An improved set of tools and an updated version of the MCP Mod System<br>
 3.1+ - New awesome features, improvements and updates :)
